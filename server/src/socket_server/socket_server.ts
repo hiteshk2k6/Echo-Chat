@@ -100,4 +100,7 @@ export const startSocketServer = () => {
     httpServer.listen(port, () => {
         console.log(`[WS] Listening for new connections on port ${port}.`);
     });
+
+    // Returned so tests can find the bound port and close the server
+    return { httpServer, socketServer };
 }
