@@ -15,8 +15,10 @@ var regions = new SortedSet(
     function keysEqual(a: { key: any; }, b: { key: any; }) {
         return b.key === a.key;
     },
-    function compareKeys(a: { key: string; }, b: { key: any; }) {
-        return b.key.localeCompare(a.key);
+    // Geohashes must be sorted ascending, using the same ordering as the <= / > comparisons
+    // in getActiveUsersInView, otherwise the range scan below skips users that are in view.
+    function compareKeys(a: { key: string; }, b: { key: string; }) {
+        return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
     }
 );
 
